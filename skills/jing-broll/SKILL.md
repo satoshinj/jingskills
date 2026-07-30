@@ -27,17 +27,30 @@ bash <本skill目录>/scripts/check_setup.sh
 
 全部 PASS 直接开始；有 FAIL 时只向用户列出缺失项的配置方法，配好后重新自检。两个实测坑：
 
-- **agent 会话的 shell 环境是启动时的快照**。用户刚把 `GEMINI_API_KEY` 写进 `~/.zshrc` 时，命令里要显式 `source ~/.zshrc` 才可见。
+- **agent 会话的 shell 环境是启动时的快照**。用户刚配好 `GEMINI_API_KEY` 时，当前会话不一定看得见，命令里要显式 source 存放它的文件（推荐 `~/.secrets.zsh`，从 `~/.zshenv` 加载，非交互 shell 也能拿到）。密钥只放这类 600 权限文件，不写进仓库、知识库或可见命令。
 - 视频脚本的下载步骤在 macOS venv 里会报 `CERTIFICATE_VERIFY_FAILED`；本 skill 的 `generate_video.py` 已内置 certifi 自动接线，无需手动设 `SSL_CERT_FILE`。venv 里 `pip install` 报同样错误时，用 `SSL_CERT_FILE=$(venv/bin/python -m certifi) pip install ...`。
-- **bash 批处理脚本里不要 `set -e` + `source ~/.zshrc`**——zsh 语法进 bash 会报错并静默中止整个脚本（表现为批任务无输出直接失败）。正确姿势是只提取需要的变量：`export GEMINI_API_KEY=$(grep -o 'GEMINI_API_KEY="[^"]*"' ~/.zshrc | cut -d'"' -f2)`。
+- **bash 批处理脚本里不要 `set -e` + `source` zsh 配置**——zsh 语法进 bash 会报错并静默中止整个脚本（表现为批任务无输出直接失败）。正确姿势是用 zsh 单独取值：`export GEMINI_API_KEY=$(zsh -c 'source ~/.secrets.zsh 2>/dev/null; printf %s "$GEMINI_API_KEY"')`。
 
 ## 模型
 
-- 静帧：`gemini-3-pro-image`（质量优先；便宜备选 `gemini-3.1-flash-image`）
-- 视频：`gemini-omni-flash-preview` 首尾帧插值（脚本默认值，不要换成 Veo，除非用户点名）
-- 旁白：`gemini-3.1-flash-tts-preview`（`scripts/generate_tts.py`，默认 Charon 声）
+三个环节各自有后端，**不要假设它们共用一个 key 或同时可用**。开工前先确认这一部片实际用得上哪几个，缺哪个就走对应降级路径。
 
-三者共用同一个 `GEMINI_API_KEY`，按量计费。实测量级（2026-07）：视频约 $0.3/条 是绝对大头，静帧 3-pro 约 $0.11/张，TTS 忽略不计；一部 8 beat 讲解片约 $3.5。
+| 环节 | 首选 | 降级 |
+|---|---|---|
+| 静帧 | `codex-image`（codex 订阅额度，无 API 费用） | Gemini `gemini-3-pro-image`（需 API **付费层**；便宜备选 `gemini-3.1-flash-image`） |
+| 画面 | `hyperframes`（零生成成本、确定性，见「路线选择」） | Gemini `gemini-omni-flash-preview` 首尾帧插值（需付费层；不要换 Veo，除非用户点名） |
+| 旁白 | Gemini `gemini-3.1-flash-tts-preview`（`scripts/generate_tts.py`，默认 Charon 声）——**免费层可用** | macOS `say -v Eddy -o out.aiff`，再用 ffmpeg 转 wav |
+
+静帧默认走 `codex-image`：
+
+```bash
+python3 ~/.claude/skills/codex-image/scripts/codex_image.py \
+  --out <绝对路径>.png --prompt-file <提示词文件> --size 1536x1024
+```
+
+**Gemini 免费层对所有图片与视频模型配额为 0**，直接报 `429 RESOURCE_EXHAUSTED / limit: 0`；TTS 不受影响。Gemini Pro 会员订阅**不含** API 额度，图片和视频要单独给 API project 开结算。付费层的实测量级（2026-07）：视频约 $0.3/条是绝对大头，静帧 3-pro 约 $0.11/张，TTS 忽略不计；一部 8 beat 全走 Gemini 约 $3.5。
+
+所以默认组合是 **codex-image 静帧 + hyperframes 画面 + Gemini TTS**，零 API 费用。只有用户点名要 AI 运镜时才需要付费层。
 
 ### 成本纪律
 
@@ -205,10 +218,12 @@ brief.md，**结构化数据写项目根目录 `beats.json`**（唯一事实源�
   成片后可换预设 restyle 换皮
 - **画内标题**：hook / closing beat 可配 `headline`（剪纸卡纸大字，
   `render_headline.py` 确定性渲染，中文零假字；AI 生成画面继续禁字）
-- **生成路由**：给每个 beat 标 `route`——刚体滑入/卡位/堆叠类组装走
-  `hyperframes`（零生成成本、确定性、7.5s 渲染，管线见
-  `references/flow-runbook.md` L3），迸裂/穿透/形变/有机运动走 `video-model`。
-  一部 8 beat 片通常过半 beat 可走 hyperframes，单片成本从 ~$3.5 压到 ~$1
+- **生成路由**：给每个 beat 标 `route`，**默认 `hyperframes`**（零生成成本、
+  确定性、7.5s 渲染，管线见 `references/flow-runbook.md` L3）。刚体滑入/卡位/
+  堆叠类组装本来就该走它；只有迸裂/穿透/形变/有机运动这类确实做不出来的才标
+  `video-model`，并且要说明为什么这个 beat 非 AI 运镜不可。
+  一部 8 beat 片通常过半 beat 可走 hyperframes，单片成本从 ~$3.5 压到 ~$1；
+  没有 API 付费层时全片必须走 hyperframes，或改用静帧 + ffmpeg 变速拼装。
 - **色彩叙事**：相邻 beat 底色必须不同，且颜色随情绪推进（例：黄提问 → 青场景 →
   橙风险 → 红击穿 → 紫跃迁 → 绿机制 → 黄合题 → 紫收尾）
 - 抽象概念类 beat（“两种”“三个层次”）是堆料重灾区，Constraints 必须用

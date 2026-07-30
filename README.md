@@ -216,6 +216,7 @@ npx -y skills add bitcoinjohnny/jingskills -g --all
 - [Skill 关系图](docs/skill-link-map.md) — 成员之间的常见衔接
 - [长文生产管线](skills/jing/references/content-pipeline.md) — Writer → Cover → WeChat / X Article 的交接与恢复
 - [公众号排版契约](skills/jing-wechat/references/layout-contract.md) — 移动端层级、署名策略与外部排版器边界
+- [环境与能力](docs/环境与能力.md) — 各 Skill 实际能跑到哪一步、凭据放哪、Gemini 免费层限制
 - [本地知识库结构](skills/jing-obsidian/references/vault-schema.md) — 资料、知识、创作、发布与回流的目录职责
 
 ---
