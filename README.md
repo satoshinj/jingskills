@@ -8,7 +8,7 @@
 
 ![License](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey)
 [![Skills](https://img.shields.io/badge/skills-9%20个%20含%20%2Fjing%20路由-8b5cf6)](#-skill-全目录9)
-[![Evals](https://img.shields.io/badge/eval%20cases-76-2563eb)](#-实测与验证)
+[![Evals](https://img.shields.io/badge/eval%20cases-77-2563eb)](#-实测与验证)
 [![Validate](https://img.shields.io/badge/结构校验-9%2F9%20pass-3fb950)](#-实测与验证)
 [![Agents](https://img.shields.io/badge/Claude%20Code%20·%20Codex%20·%20WorkBuddy-supported-6366f1)](#-安装)
 
@@ -122,7 +122,7 @@ jingskills 把“文档写完”与“Skill 真能防错”分开检查。
 | 检查 | 当前结果 | 含义 |
 |---|---:|---|
 | Skill 数量 | **9** | 包含 `/jing` 主路由与 8 个成员 |
-| 场景测试 | **76** | 正常、边界与失败场景均记录在各 Skill 的 `evals/evals.json`，部分 Skill 使用更细分类 |
+| 场景测试 | **77** | 正常、边界与失败场景均记录在各 Skill 的 `evals/evals.json`，部分 Skill 使用更细分类 |
 | 结构校验 | **9 / 9 通过** | 名称、目录、frontmatter 与资源结构有效 |
 
 场景测试是断言集，记录每个 Skill 该防住什么；`tools/build.sh` 负责结构校验。带 / 不带 Skill 的对照实测尚未在本仓库跑过，所以这里不给对照分数。
