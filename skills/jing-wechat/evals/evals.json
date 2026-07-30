@@ -181,6 +181,21 @@
         "恢复后仍运行本地交付门和完整回读",
         "不调用 freepublish 或群发接口"
       ]
+    },
+    {
+      "id": 14,
+      "name": "外部排版器产物走完自有门控",
+      "type": "integration",
+      "prompt": "/jing-wechat 这篇用 gzh-design 的红白色系排，排好直接进公众号草稿箱。",
+      "expected_output": "调用已安装的 gzh-design 完成排版并落地 HTML 文件，然后用本 Skill 的 wechat_images.py 上传正文图、wechat_draft.py 写草稿，--theme 传 gzh-design:red-white；不复制 gzh-design 的组件代码。「排好直接进草稿箱」已指名落点且动词明确，但仍先完成本地排版与手机预览确认，再写入；写入后照常 UTF-8 回读验收。",
+      "expectations": [
+        "把排版交给 gzh-design，不自己模仿它的主题样式",
+        "不复制 gzh-design 的组件库、主题文件或脚本",
+        "图片上传、草稿写入、回读全部走 jing-wechat 自己的脚本",
+        "--theme 记录为 gzh-design:red-white，不记成自有主题也不留 unspecified",
+        "外部排版器报告完成不当作草稿已保存",
+        "不调用 freepublish 或群发接口"
+      ]
     }
   ]
 }

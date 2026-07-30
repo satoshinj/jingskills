@@ -390,7 +390,11 @@ def add_common(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--digest")
     parser.add_argument("--cover", type=Path)
     parser.add_argument("--cover-media-id")
-    parser.add_argument("--theme", default="jing-editorial")
+    # Recorded verbatim into the article's wechat_draft_theme frontmatter as the
+    # audit trail for which theme a draft is in. Own themes use their jing-* id;
+    # an external typesetter uses "<skill>:<theme-id>". Defaulting to a real
+    # theme name would silently mislabel drafts, so record the absence instead.
+    parser.add_argument("--theme", default="unspecified")
     parser.add_argument("--signature", choices=("absent", "present", "inherit"), default="inherit")
     parser.add_argument("--record", action="store_true")
 
