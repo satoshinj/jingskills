@@ -112,15 +112,15 @@ python3 scripts/record_draft.py --article <文章.md> --url <草稿地址> --cov
 - `x_article_cover`
 - `x_article_content_sha256`
 
-这些字段不只是记录：`x_article_status: draft` 加 `x_article_saved_at` 是采集管线（`50-系统/40-自动化/知识采集/knowledge_ingest.py`，30 分钟一轮）发布自动检测的门控。人在平台上点发布后，管线会在保存时间起 72 小时内自动比对自己时间线上的 Article 帖确认发布，然后把草稿的 `x_article_status` 翻成 `published`，写入 `x_article_url`（公开地址）、`x_article_published_at` 和 `published_file`，归档正式稿到 `40-发布/`，并回写成稿包。因此：
+这些字段是草稿的唯一本地记录，也是下次续写时判断「这篇是否已有草稿」的去重依据——写错或漏写会导致重复建稿。
 
-- 检测按文章标题匹配（精确优先，发布前在编辑器里小幅改标题有相似度兜底）；若发布时大改标题，自动检测可能追不上，届时用知识工作台的「登记发布」表单人工登记。
-- `draft-needs-cover` 不进入自动检测；重新记录为 `draft` 会刷新 `x_article_saved_at`，等于重开 72 小时检测窗口。
-- 超过 72 小时才发布的草稿不再被轮询，同样走「登记发布」表单。
+`x_article_status` 从 `draft` 翻到 `published` **不由本 Skill 完成，jingskills 也不附带任何发布检测管线**。在平台上按下发布是用户动作，发布之后的字段回写属于归档回流，手工步骤见 `/jing` 的 `references/content-pipeline.md`「发布之后：归档回流」。用户自己的知识库若装了轮询式采集工具，可以由它翻转状态；本 Skill 不假设它存在、不等待它，也不把它的存在当作交付条件。
+
+`draft-needs-cover` 是未完成态，不参与任何发布判定；重新记录为 `draft` 会刷新 `x_article_saved_at`。
 
 浏览器权限等外部原因导致封面尚未上传时，先使用 `--status draft-needs-cover` 记录可恢复状态；补齐并验证封面后必须重新记录为 `draft`。
 
-本地文章仍留在 `10-创作/20-草稿/`。本 Skill 不复制或移动到 `40-发布/10-X长文/`，也不把状态改为 `published`。发布后的归档与状态翻转由上面的自动检测完成，检测不确定时由工作台「登记发布」表单人工兜底——都不属于本 Skill 的动作。
+本地文章仍留在 `01-Projects（项目）/<项目>/`。本 Skill 不复制或移动到 `04-Archive（归档）/`，也不把状态改为 `published`——归档与状态翻转都不属于本 Skill 的动作。
 
 ## 交付要求
 

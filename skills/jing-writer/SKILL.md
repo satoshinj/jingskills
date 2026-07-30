@@ -40,7 +40,7 @@ description: 把灵感、剪藏审核卡、调研包、长期知识或已有草�
 
 默认交付 2–3 分钟的混合口播内容包，包括选题卡、三个开场、可直接念的逐字稿、拍摄节奏、素材清单、图片长文接口和录前核对项。用户明确指定 60 秒、5 分钟教程、纯出镜或纯录屏时再调整。
 
-衍生稿与母稿一起进入 `<vault>/10-创作/20-草稿/`，使用 `kind: oral-script`，并记录 `source_draft` 与 `source_sha256`。完成后运行：
+衍生稿与母稿一起进入 `<vault>/01-Projects（项目）/<项目>/`，使用 `kind: oral-script`，并记录 `source_draft` 与 `source_sha256`。完成后运行：
 
 ```bash
 python3 scripts/oral_script_check.py <口播稿.md> --source <母稿.md>
@@ -59,13 +59,13 @@ python3 scripts/oral_script_check.py <口播稿.md> --source <母稿.md>
 
 **译文里的"我"永远是原作者的**，不得改写成 Jing 的经历。原文没有的事实不加，有的事实不改；过期数据在按语里说明，不在正文里偷偷更新。
 
-译文进 `<vault>/10-创作/20-草稿/`，`kind: translation` 或 `repost`；原文备份进 `<vault>/30-资料/`，不进 `<vault>/20-知识/`。交给 `jing-wechat` 时不勾选原创声明，交给 `jing-x-article` 时出处块随正文进编辑器；两个平台都会重新验一次授权和署名。
+译文进 `<vault>/01-Projects（项目）/<项目>/`，`kind: translation` 或 `repost`；原文备份进 `<vault>/03-Resources（资源）/`，不进 `<vault>/02-Areas（资产）/`。交给 `jing-wechat` 时不勾选原创声明，交给 `jing-x-article` 时出处块随正文进编辑器；两个平台都会重新验一次授权和署名。
 
 ## 写作流程
 
 ### 1. 建立成稿包
 
-使用 `<vault>/50-系统/30-模板/内容成稿包.md`。至少填清：
+使用 `<vault>/05-Skills（技能）/内容生产/模板/内容成稿包.md`。至少填清：
 
 - 目标读者、平台与文章原型
 - 核心问题和一句话判断
@@ -146,11 +146,11 @@ python3 scripts/article_check.py <文章路径>
 
 ### 7. 落盘与回流
 
-- 成稿包进入 `<vault>/10-创作/10-灵感/20-成稿包/`。
-- 调研和事实清单进入 `<vault>/30-资料/10-自主调研/<主题>/`。
-- 当前草稿进入 `<vault>/10-创作/20-草稿/`。
-- 只有用户确认发布后，才进入 `<vault>/40-发布/` 对应目录。
-- 发布后，把新形成且值得长期复用的观点、案例或方法提炼回 `<vault>/20-知识/`。
+- 成稿包进入 `<vault>/01-Projects（项目）/<项目>/`。
+- 调研和事实清单进入 `<vault>/01-Projects（项目）/<项目>/`。
+- 当前草稿进入 `<vault>/01-Projects（项目）/<项目>/`。
+- 只有用户确认发布后，才进入 `<vault>/04-Archive（归档）/` 对应目录。
+- 发布后，把新形成且值得长期复用的观点、案例或方法提炼回 `<vault>/02-Areas（资产）/`。
 
 ### 8. 封面交接
 
@@ -158,7 +158,7 @@ python3 scripts/article_check.py <文章路径>
 
 `jing-cover` 负责从同一视觉母题生成无字底图，再分别排成公众号与 X 封面。写作阶段不让图片风格反过来改动事实和核心判断。若还需要约 5 秒竖屏动态素材，由 `jing-cover` 继续转交 `gbro-collage-broll`。
 
-**正文配图**（示意图、结构图、概念插画）与封面是两件事，封面走 `jing-cover`，正文配图读 [inline-illustrations.md](references/inline-illustrations.md)。默认不做：只在用户明确要求配图时进这条流程，先报额度成本再生成。母稿必须已通过检查——先定判断和槽位，再出图，不反过来。生成器是外部 skill `codex-image`（走 codex 订阅额度），产物落 `<vault>/60-素材/10-图片/20-正文配图/`，之后由 `jing-wechat` 上传或进 `jing-x-article` 交付包的 `images` 清单。
+**正文配图**（示意图、结构图、概念插画）与封面是两件事，封面走 `jing-cover`，正文配图读 [inline-illustrations.md](references/inline-illustrations.md)。默认不做：只在用户明确要求配图时进这条流程，先报额度成本再生成。母稿必须已通过检查——先定判断和槽位，再出图，不反过来。生成器是外部 skill `codex-image`（走 codex 订阅额度），产物落 `<vault>/01-Projects（项目）/<项目>/配图/`，之后由 `jing-wechat` 上传或进 `jing-x-article` 交付包的 `images` 清单。
 
 用户明确要求把成稿送入 X Articles 后台时，再把通过检查的文章与 5:2 `x-article-cover` 交给 `jing-x-article`。它只保存并验证草稿，不自动发布。
 

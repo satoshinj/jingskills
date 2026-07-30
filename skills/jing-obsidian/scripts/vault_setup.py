@@ -7,40 +7,25 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 
-SCHEMA_VERSION = 1
-LAYOUT = "jing-content-v1"
+SCHEMA_VERSION = 2
+LAYOUT = "para-v1"
 
+# PARA top level only. Content production does not add a parallel taxonomy:
+# one article is one directory under 01-Projects, and its 成稿包 / 调研 / 草稿 /
+# 封面 / 配图 all live inside it. Per-project directories are created on demand
+# by the writing flow, not here.
 DIRECTORIES = (
-    "00-入口/10-工作台",
-    "10-创作/10-灵感/10-待评估",
-    "10-创作/10-灵感/20-成稿包",
-    "10-创作/10-灵感/90-归档",
-    "10-创作/20-草稿",
-    "20-知识/10-概念",
-    "20-知识/20-人物与组织",
-    "20-知识/30-问题",
-    "20-知识/40-观点",
-    "20-知识/50-案例",
-    "20-知识/60-方法",
-    "20-知识/70-知识地图",
-    "30-资料/00-待处理",
-    "30-资料/10-自主调研",
-    "30-资料/20-参考资料",
-    "30-资料/30-X书签",
-    "30-资料/40-网页剪藏",
-    "40-发布/10-X长文",
-    "40-发布/20-X短帖",
-    "40-发布/30-公众号",
-    "40-发布/40-其他平台",
-    "50-系统/10-文档",
-    "50-系统/20-流程",
-    "50-系统/30-模板/knowledge",
-    "50-系统/30-模板/主题调研包",
-    "60-素材/10-图片/10-封面",
-    "60-素材/20-录音/10-转录",
-    "70-思考",
-    "90-归档",
+    "00-Inbox（灵感库）",
+    "01-Projects（项目）",
+    "02-Areas（资产）",
+    "03-Resources（资源）",
+    "04-Archive（归档）",
+    "05-Skills（技能）",
+    "indexes",
 )
+
+# Never created and never written to: Web Clipper originals are read-only.
+READ_ONLY_DIRECTORIES = ("Clippings",)
 
 ASSET_ROOT = Path(__file__).resolve().parent.parent / "assets" / "vault-template"
 ASSET_FILES = tuple(

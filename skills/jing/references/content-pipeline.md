@@ -135,14 +135,16 @@
 
 公开发布是授权阶梯第 3 级，仍然不属于本管线，也不能由本管线触发——在平台上按下发布是用户动作。本节说的是发布**已经发生之后**怎么把结果记回知识库：这一步只写本地文件，不调用微信或 X 的任何接口，不打开浏览器。记录一件已完成的事不是发布。
 
-`50-系统/40-自动化/发布归档/record_published.py` 承担其中可自动完成的部分，需要用户提供真实的公开地址和带时区的发布时间：
+**jingskills 不附带归档脚本**，这一步全部手工写，需要用户提供真实的公开地址和带时区的发布时间。写四处：
 
-```
-python3 record_published.py --article <正式稿路径> --platform x|wechat --url <公开地址> --published-at <带时区时间>
-```
+1. 正式稿的平台字段：`x_article_status` / `x_article_url` / `x_article_published_at`，或 `wechat_status` / `wechat_public_url` / `wechat_published_at`。
+2. 正式稿归档到 `04-Archive（归档）/<主题>/`，项目目录里的工作稿不必删。
+3. 可复用观点写回 `02-Areas（资产）/<主题>/概览.md`，优先更新既有页而不是新建一页；只写判断，不把整篇文章复制过去。
+4. 候选选题的状态改成 `partially-published` 或 `closed`，并标记已经用掉的角度。
 
-它写三处：正式稿的平台字段（`x_article_status` / `x_article_url` / `x_article_published_at`，或 `wechat_status` / `wechat_public_url` / `wechat_published_at`）、`40-发布/00-内容反馈/` 下的发布反馈卡（`due_at` 指向发布后 24 小时），以及顺着写作任务和审核卡找回的源头 X 书签（`processing_status: processed` 和指向正式稿的 `published_file`）。
+几条不能含糊的规则：
 
-它拒绝几类会让健康检查失明的写法：草稿编辑器地址 `https://x.com/compose/articles/edit/…` 不能当公开链接；没有时区的时间算不出 24 小时到期时间；同一篇稿子在同一平台已经记过另一个公开地址时报错停下，不覆盖。反馈卡只填空不覆盖，已完成的复盘不会被打回 `pending`。
-
-剩下三步要人判断，脚本每次运行都会把还欠的列出来：把可复用观点写回 `20-知识/` 并更新 `knowledge_backfill_status`、标记已用角度并更新 `remaining_angles_status`、把候选选题改成 `partially-published` 或 `closed`。跑完这条命令不等于归档齐了。详细边界见该目录下的 `README.md`。
+- 草稿编辑器地址（如 `https://x.com/compose/articles/edit/…`）**不是公开链接**，不能填进 `*_url`。
+- 发布时间必须带时区，否则算不出任何以它为起点的复盘时间。
+- 同一篇稿子在同一平台已经记过另一个公开地址时**停下问用户**，不覆盖——那通常意味着重复发布或记错了稿子。
+- 记录一件已完成的事不是发布。这一步只写本地文件。
