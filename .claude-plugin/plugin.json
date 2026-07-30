@@ -1,0 +1,30 @@
+{
+  "name": "jingskills",
+  "version": "1.0.0",
+  "description": "builder 实战工具箱：本地知识库、中文长文与再分发、公众号与 X Articles 草稿、封面与口播视频、企业咨询、多模型协作。默认替你判断下一步，平台写入前守住确认边界。",
+  "author": {
+    "name": "jing",
+    "url": "https://github.com/bitcoinjohnny"
+  },
+  "repository": "https://github.com/bitcoinjohnny/jingskills",
+  "license": "CC-BY-NC-4.0",
+  "keywords": [
+    "content-production",
+    "obsidian",
+    "wechat",
+    "x-articles",
+    "consulting",
+    "multi-model"
+  ],
+  "skills": [
+    "./skills/jing",
+    "./skills/jing-obsidian",
+    "./skills/jing-writer",
+    "./skills/jing-cover",
+    "./skills/jing-broll",
+    "./skills/jing-wechat",
+    "./skills/jing-x-article",
+    "./skills/jing-consult",
+    "./skills/jing-multimodel"
+  ]
+}

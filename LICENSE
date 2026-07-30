@@ -1,0 +1,38 @@
+Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+
+https://creativecommons.org/licenses/by-nc/4.0/
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+- NonCommercial — You may not use the material for commercial purposes.
+
+No additional restrictions — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+Original work — Copyright (c) 2026 imraywang
+https://x.com/wangray
+https://github.com/imraywang/rayskills
+
+This repository is a derivative work ("jingskills"), distributed under the same
+CC BY-NC 4.0 license. Changes made:
+- All skills renamed from the `ray-*` prefix to `jing-*`, including the `/ray`
+  router, which became `/jing`. Env vars, config paths and theme ids renamed to
+  match.
+- The original author's personal byline replaced throughout.
+- The original author's local infrastructure references replaced with neutral
+  paths or placeholders.
+- Removed: the upstream v1 comparative eval report and all scores derived from
+  it, and the upstream version-history and upgrade-path sections. Those results
+  were measured against a different set of skills and do not describe this
+  repository.
+Skill workflows, gates and per-skill eval case definitions are otherwise
+unmodified.
+
+Third-party components are not relicensed by this file. The bundled
+codex-grok-search component under skills/jing-multimodel retains its MIT
+license; see skills/jing-multimodel/LICENSE.codex-grok-search.

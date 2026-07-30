@@ -1,0 +1,23 @@
+{
+  "name": "bitcoinjohnny",
+  "owner": {
+    "name": "jing",
+    "url": "https://github.com/bitcoinjohnny"
+  },
+  "description": "jing 的 builder 实战工具箱，作为可安装的 Claude Code 插件分发。",
+  "plugins": [
+    {
+      "name": "jingskills",
+      "source": "./",
+      "description": "9 个 Skill：本地知识库、中文长文与再分发、公众号与 X Articles 草稿、封面与口播视频、企业咨询、多模型协作。",
+      "category": "productivity",
+      "keywords": [
+        "content-production",
+        "obsidian",
+        "wechat",
+        "x-articles",
+        "multi-model"
+      ]
+    }
+  ]
+}
