@@ -49,6 +49,8 @@ X 没有"在第 N 块后插入图片"的接口，所以插图由人按交付包�
 
 插图必须在源文里独占一段，交付包才能算出位置；混在段落中间时脚本直接失败，回去改 Markdown，不要在编辑器里凑。插完后 `after_block` 不再等于页面块数，所以块数核对要在插图之前做完。
 
+`path` 指向的文件必须已经存在——本 Skill 只定位和核对，不生成图。正文配图由 `jing-writer` 按 `references/inline-illustrations.md` 生产（外部 skill `codex-image` 出图，按正文顺序编号落知识库素材区）。文件缺失时回 `jing-writer` 补齐，不要在编辑器里临时找图替代，也不要跳过那个槽位——`images` 清单的 `order` 和实际插入顺序必须一致。
+
 ## 已验证的结构检查
 
 2026-07-19 的编辑器中，正文块使用 `[data-block="true"]`，加粗使用 `span[style*="font-weight: bold"]`，`Heading` 落成 `h1.longform-header-one`，`Subheading` 落成 `h2.longform-header-two`。这些只能作为当前页面结构一致时的只读验收信号：

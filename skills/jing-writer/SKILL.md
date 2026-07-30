@@ -158,6 +158,8 @@ python3 scripts/article_check.py <文章路径>
 
 `jing-cover` 负责从同一视觉母题生成无字底图，再分别排成公众号与 X 封面。写作阶段不让图片风格反过来改动事实和核心判断。若还需要约 5 秒竖屏动态素材，由 `jing-cover` 继续转交 `gbro-collage-broll`。
 
+**正文配图**（示意图、结构图、概念插画）与封面是两件事，封面走 `jing-cover`，正文配图读 [inline-illustrations.md](references/inline-illustrations.md)。默认不做：只在用户明确要求配图时进这条流程，先报额度成本再生成。母稿必须已通过检查——先定判断和槽位，再出图，不反过来。生成器是外部 skill `codex-image`（走 codex 订阅额度），产物落 `<vault>/60-素材/10-图片/20-正文配图/`，之后由 `jing-wechat` 上传或进 `jing-x-article` 交付包的 `images` 清单。
+
 用户明确要求把成稿送入 X Articles 后台时，再把通过检查的文章与 5:2 `x-article-cover` 交给 `jing-x-article`。它只保存并验证草稿，不自动发布。
 
 用户明确要求公众号排版或保存草稿时，把通过检查的文章、公众号封面和署名偏好交给 `jing-wechat`。它先生成并验证本地预览，用户确认后才创建或更新公众号草稿；不要在 `jing-writer` 内临时拼 HTML 或直接调用微信接口。

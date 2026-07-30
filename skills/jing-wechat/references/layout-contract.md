@@ -40,6 +40,12 @@
 
 三套主题的完整规则见 [theme-library.md](theme-library.md)。先选阅读动作，再选主题。用户只说“排版单调”时，优先检查章节、段落长度、加粗判断和留白，不增加更多卡片与颜色。
 
+## 正文配图
+
+正文里的图由 `jing-writer` 按 `references/inline-illustrations.md` 生产（外部 skill `codex-image` 出图，落知识库素材区）。本 Skill 只消费：`wechat_images.py` 扫 `<img src>` 上传非 https 的本地图并重写为微信永久 URL，`render_article.py` 在还有未上传的图时报 `images are not uploaded yet`——这是正常中间态，按顺序补上传即可，不要把它当故障或手工改 HTML 绕过。
+
+本 Skill 不生成正文配图。用户在排版阶段才提出要配图时，回到 `jing-writer` 定槽位再出图，不在排版环节临时插图——图的位置属于文章结构，不属于主题样式。
+
 ## 外部排版器
 
 可以调用用户已经安装并选定的排版 Skill。使用 `isjiamu/gzh-design-skill`（skill 名 `gzh-design`，本机已安装）时把它视为独立的 AGPL-3.0 工具：读取并执行，不把其组件代码、主题文件或脚本复制进 jingskills。最终仍使用本 Skill 的本地交付门和草稿验收门。
