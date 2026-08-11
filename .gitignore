@@ -4,3 +4,19 @@ node_modules/
 *.local
 __pycache__/
 *.py[cod]
+
+# CPC 过程目录(含本机绝对路径,不进公开仓库)
+_work/
+
+# 凭据与密钥
+.env
+.env.*
+*.pem
+*.key
+*.p12
+secrets.*
+**/auth.json
+**/config.local.*
+**/.jing-wechat/
+**/fixed-egress.json
+**/.secrets.zsh

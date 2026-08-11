@@ -35,8 +35,13 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from upload_file import upload_file, wait_for_active
 
 def get_api_key(args):
-    """Retrieves API key from command args or environment."""
+    """Retrieves API key from environment, or from the deprecated CLI flag."""
     if args.api_key:
+        print(
+            "Warning: --api-key is deprecated. The key becomes visible to other "
+            "processes via the process list (e.g. `ps`). Set GEMINI_API_KEY instead.",
+            file=sys.stderr,
+        )
         return args.api_key
     return os.environ.get("GEMINI_API_KEY")
 
@@ -335,7 +340,7 @@ def main():
     parser.add_argument("--output", help="Local output file path for single generation (default: media/output.mp4)")
     parser.add_argument("--strip-audio", "-a", action="store_true", help="Completely strip/disable audio stream from the input video(s) before uploading so Gemini Omni Flash can regenerate new audio from scratch")
     parser.add_argument("--previous-interaction-id", help="Optional Interaction ID of a previous generation for turn-by-turn editing")
-    parser.add_argument("--api-key", help="Gemini API Key (overrides env)")
+    parser.add_argument("--api-key", help="DEPRECATED: Gemini API Key (visible in the process list; prefer the GEMINI_API_KEY env var)")
     
     # Parallel batch configuration options
     parser.add_argument("--batch", help="Path to a JSON file containing an array of generation jobs")
@@ -346,7 +351,7 @@ def main():
 
     api_key = get_api_key(args)
     if not api_key:
-        print("Error: API key is not set. Use --api-key or set GEMINI_API_KEY environment variable.", file=sys.stderr)
+        print("Error: API key is not set. Set the GEMINI_API_KEY environment variable.", file=sys.stderr)
         sys.exit(1)
 
     # 1. Handle Batch JSON execution

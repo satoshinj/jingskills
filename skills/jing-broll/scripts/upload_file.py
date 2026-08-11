@@ -16,8 +16,13 @@ from google import genai
 from google.genai import types
 
 def get_api_key(args):
-    """Retrieves API key from command args or environment."""
+    """Retrieves API key from environment, or from the deprecated CLI flag."""
     if args.api_key:
+        print(
+            "Warning: --api-key is deprecated. The key becomes visible to other "
+            "processes via the process list (e.g. `ps`). Set GEMINI_API_KEY instead.",
+            file=sys.stderr,
+        )
         return args.api_key
     return os.environ.get("GEMINI_API_KEY")
 
@@ -183,14 +188,14 @@ def main():
     parser = argparse.ArgumentParser(description="Upload files to Gemini Files API using google-genai SDK.")
     parser.add_argument("file", help="Path to the file to upload")
     parser.add_argument("--name", help="Custom display name for the file")
-    parser.add_argument("--api-key", help="Gemini API Key (overrides env)")
+    parser.add_argument("--api-key", help="DEPRECATED: Gemini API Key (visible in the process list; prefer the GEMINI_API_KEY env var)")
     parser.add_argument("--no-wait", action="store_true", help="Don't wait for ACTIVE status")
     
     args = parser.parse_args()
     
     api_key = get_api_key(args)
     if not api_key:
-        print("Error: API key is not set. Use --api-key or set GEMINI_API_KEY environment variable.", file=sys.stderr)
+        print("Error: API key is not set. Set the GEMINI_API_KEY environment variable.", file=sys.stderr)
         sys.exit(1)
 
     if not os.path.exists(args.file):
