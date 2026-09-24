@@ -136,7 +136,7 @@ X Article 封面只有在用户要求送入后台时，才进入编辑器 Previe
 
 后期排字模式另保留 `background-<platform>.png`，并在 manifest 记录用户为何选择后期排字。
 
-若用户还需要约 5 秒的竖屏动态素材，从同一隐喻提炼一句无字画面描述，转交已安装的 `gbro-collage-broll`；尊重它的三道确认，不在本 Skill 内绕过。完整解说视频才考虑 `vox-director` 类流程。
+若用户还需要约 5 秒的竖屏动态素材或完整拼贴讲解片，从同一隐喻提炼画面描述，转交已安装的 `jing-broll` 对应模式。遵守其默认确认门、成本限制与已明确授权的全自动模式，不在本 Skill 内另设或绕过门禁；不再按旧入口转交 `gbro-collage-broll` 或 `vox-director`。
 
 ## 交付要求
 
