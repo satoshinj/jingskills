@@ -52,7 +52,7 @@ python3 ~/.claude/skills/codex-image/scripts/codex_image.py \
   --out <绝对路径>.png --prompt-file <提示词文件> --size 1536x1024
 ```
 
-**Gemini 免费层对所有图片与视频模型配额为 0**，直接报 `429 RESOURCE_EXHAUSTED / limit: 0`；TTS 不受影响。Gemini Pro 会员订阅**不含** API 额度，图片和视频要单独给 API project 开结算。付费层的实测量级（2026-07）：视频约 $0.3/条是绝对大头，静帧 3-pro 约 $0.11/张，TTS 忽略不计；一部 8 beat 全走 Gemini 约 $3.5。
+**Gemini 免费层对所有图片与视频模型配额为 0**（2026-07 实测；开工前以 AI Studio 当前配额为准），直接报 `429 RESOURCE_EXHAUSTED / limit: 0`；TTS 不受影响。Gemini Pro 会员订阅**不含** API 额度，图片和视频要单独给 API project 开结算。付费层的实测量级（2026-07）：视频约 $0.3/条是绝对大头，静帧 3-pro 约 $0.11/张，TTS 忽略不计；一部 8 beat 全走 Gemini 约 $3.5。
 
 所以默认组合是 **codex-image 静帧 + hyperframes 画面 + Gemini TTS**，零 API 费用。只有用户点名要 AI 运镜时才需要付费层。
 
